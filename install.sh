@@ -8,6 +8,7 @@ unix_bin="/usr/local/bin"
 
 # Create temp directory for build #
 temp_dir=$(mktemp -d)
+echo "Temp dir: $temp_dir"
 cd $temp_dir
 
 # Pull repo #
