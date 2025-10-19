@@ -67,13 +67,13 @@ It enhances traditional compilation pipelines with automatic memory safety check
 ## Install / Update
 
 ```bash
-curl -L https://raw.githubusercontent.com/krishnaTORQUE/cdefer/refs/heads/master/install.sh | sh
+curl -L https://raw.githubusercontent.com/krishnaTORQUE/cdefer/refs/heads/main/install.sh | sh
 ```
 
 ## Uninstall
 
 ```bash
-curl -L https://raw.githubusercontent.com/krishnaTORQUE/cdefer/refs/heads/master/uninstall.sh | sh
+curl -L https://raw.githubusercontent.com/krishnaTORQUE/cdefer/refs/heads/main/uninstall.sh | sh
 ```
 
 ## Note
