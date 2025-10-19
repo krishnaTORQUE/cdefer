@@ -32,6 +32,101 @@ cd start
 cdefer run
 ```
 
+## How it works. Step by step
+
+### Step: 1. Your main.c file
+
+```c
+#include <cdeferlib/defer.h>
+#include <cdeferlib/try.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+char* file_content(char* name) {
+    char* buf = malloc(1024);
+    Defer free(buf);
+
+    FILE* f;
+    Try(f, fopen(name, "r"), return "");
+    Defer fclose(f);
+
+    fgets(buf, 1024, f);
+    return buf;
+}
+
+int main() {
+    char* content = file_content("start.txt");
+    Defer free(content);
+    printf("%s\n", content);
+    return 0;
+}
+```
+
+### Step: 2. Check & free memory when out of scope
+
+```c
+#include <cdeferlib/try.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+char* file_content(char* name) {
+    char* buf = malloc(1024);
+
+    FILE* f;
+    Try(f, fopen(name, "r"), free(buf); return "");
+
+    fgets(buf, 1024, f);
+    fclose(f);
+    return buf;
+}
+
+int main() {
+    char* content = file_content("start.txt");
+    printf("%s\n", content);
+    free(content);
+    return 0;
+}
+```
+
+### Step: 3. Expand macro for compile
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+char* file_content(char* name) {
+    char* buf = malloc(1024);
+
+    FILE* f;
+    do {
+        f = fopen(name, "r");
+        if (!(f)) {
+            free(buf);
+            return "";
+        }
+    } while (0);
+
+    fgets(buf, 1024, f);
+    fclose(f);
+    return buf;
+}
+
+int main() {
+    char* content = file_content("start.txt");
+    printf("%s\n", content);
+    free(content);
+    return 0;
+}
+```
+
+-   As you can see the `defer` call when the code get out of scope in `step: 2`.
+
+-   Then it will expand macro `Try` to handle Io operation safely in `step: 3`.
+
+-   If the Io operation fail the code will be out of scope and it will free all the allocated memory.
+
+-   `Step: 4` the code is ready to compile.
+
 ## Key Features
 
 #### Memory Safety (Implemented ✅)
