@@ -6,6 +6,13 @@ macos_std="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"
 linux_std="/usr/include"
 unix_bin="/usr/local/bin"
 
+# Create temp directory for build #
+temp_dir=$(mktemp -d)
+cd $temp_dir
+
+# Pull repo #
+git clone https://github.com/krishnaTORQUE/cdefer .
+
 # Create directories #
 if [ -d $macos_std ]
 then
@@ -19,13 +26,6 @@ else
     echo "Fail to install"
     exit
 fi
-
-# Create temp directory for build #
-temp_dir=$(mktemp -d)
-cd $temp_dir
-
-# Pull repo #
-git clone https://github.com/krishnaTORQUE/cdefer .
 
 # Make & install #
 make clean
