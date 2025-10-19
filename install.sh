@@ -25,7 +25,7 @@ temp_dir=$(mktemp -d)
 cd $temp_dir
 
 # Pull repo #
-git clone https://github.com/krishnatorque/cdefer .
+git clone https://github.com/krishnaTORQUE/cdefer .
 
 # Make & install #
 make clean
