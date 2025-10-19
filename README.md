@@ -12,9 +12,29 @@ Bringing modern memory safety and zero-configuration builds to classic C & C++.
 
 It enhances traditional compilation pipelines with automatic memory safety checks, build orchestration, and (soon) built-in package management. Unlike other approaches, `cdefer` does not require switching languages, runtimes, or toolchains.
 
+## Install / Update
+
+```bash
+curl -L https://raw.githubusercontent.com/krishnaTORQUE/cdefer/refs/heads/main/install.sh | sh
+```
+
+## Uninstall
+
+```bash
+curl -L https://raw.githubusercontent.com/krishnaTORQUE/cdefer/refs/heads/main/uninstall.sh | sh
+```
+
+## To start a project (Example)
+
+```shell
+git clone https://github.com/krishnaTORQUE/start
+cd start
+cdefer run
+```
+
 ## Key Features
 
-#### Full Memory Safety (Implemented ✅)
+#### Memory Safety (Implemented ✅)
 
 -   Enforces safe memory access patterns.
 -   No ghost allocation.
@@ -28,7 +48,7 @@ It enhances traditional compilation pipelines with automatic memory safety check
 
 #### No Makefile Required (Implemented ✅)
 
--   **Automatic build system generation**
+-   Automatic build system generation
 -   Detects source files intelligently.
 -   Configures compiler flags and output targets.
 -   Works across platforms (Linux, macOS, Windows).
@@ -63,24 +83,6 @@ It enhances traditional compilation pipelines with automatic memory safety check
 | Linux   | ✅ Complete    |
 | Macos   | ✅ Complete    |
 | Windows | 🚧 In Progress |
-
-## Install / Update
-
-```bash
-curl -L https://raw.githubusercontent.com/krishnaTORQUE/cdefer/refs/heads/main/install.sh | sh
-```
-
-## Uninstall
-
-```bash
-curl -L https://raw.githubusercontent.com/krishnaTORQUE/cdefer/refs/heads/main/uninstall.sh | sh
-```
-
-## To start a project
-
-```bash
-https://github.com/krishnaTORQUE/start
-```
 
 ## Note
 
