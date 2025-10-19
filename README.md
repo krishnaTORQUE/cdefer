@@ -76,6 +76,12 @@ curl -L https://raw.githubusercontent.com/krishnaTORQUE/cdefer/refs/heads/main/i
 curl -L https://raw.githubusercontent.com/krishnaTORQUE/cdefer/refs/heads/main/uninstall.sh | sh
 ```
 
+## To start a project
+
+```bash
+https://github.com/krishnaTORQUE/start
+```
+
 ## Note
 
 -   This project is still in **Alpha**.
