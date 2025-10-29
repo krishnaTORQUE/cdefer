@@ -1,11 +1,14 @@
 #ifndef Try
 
-#define Try(v, f, r) \
-    do {             \
-        v = f;       \
-        if (!(v)) {  \
-            r;       \
-        }            \
+#include <stdio.h>
+
+#define Try(v, f, r)                                    \
+    do {                                                \
+        printf("[WARN] Try macro has been deprecated"); \
+        v = f;                                          \
+        if (!(v)) {                                     \
+            r;                                          \
+        }                                               \
     } while (0)
 
 #endif

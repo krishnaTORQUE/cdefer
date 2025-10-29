@@ -40,7 +40,7 @@ void defer_file(FILE* f, char* code_cb) {
             char* x = replacer(line, " Defer ", "");
             snprintf(defers[defers_i], sizeof(defers[defers_i]), "%s", x);
             defers_i += 1;
-        } else if (strstr(line, " return ")) {
+        } else if (strstr(line, " return ") && !strstr(line, " //")) {
             char* returned = replacer(line, "return ", "");
             returned = replacer(returned, ";", "");
             trim(returned);
@@ -51,7 +51,7 @@ void defer_file(FILE* f, char* code_cb) {
                 if (!strstr(defers[i], returned)) {
                     char* x = defers[i];
                     trim(x);
-                    d_i += snprintf(d + d_i, sizeof(d) - d_i, "%s\n", x);
+                    d_i += snprintf(d + d_i, sizeof(d) - d_i, "%s", x);
                 }
             }
 

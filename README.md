@@ -1,14 +1,14 @@
 # Cdefer
 
-**A Next-Generation Memory-Safe Preprocessor for C & C++**
+**A Memory-Safe Preprocessor for C**
 
-Bringing modern memory safety and zero-configuration builds to classic C & C++.
+Bringing modern memory safety and zero-configuration builds to classic C.
 
 ## Overview
 
-`cdefer` draws inspiration from `Zig` & `Golang`, integrating their modern safety and simplicity features directly into C & C++ — while staying fully within the existing languages (no new language required).
+`cdefer` draws inspiration from `Zig` & `Golang`, integrating their modern safety and simplicity features directly into C — while staying fully within the existing languages (no new language required).
 
-`cdefer` is an open-source **preprocessor and tooling layer for C & C++** with one core mission, make C & C++ memory-safe by default — without changing the language.
+`cdefer` is an open-source **preprocessor and tooling layer for C** with one core mission, make C memory-safe **`If you opt-in`**.
 
 It enhances traditional compilation pipelines with automatic memory safety checks, build orchestration, and (soon) built-in package management. Unlike other approaches, `cdefer` does not require switching languages, runtimes, or toolchains.
 
@@ -38,7 +38,6 @@ cdefer run
 
 ```c
 #include <cdeferlib/defer.h>
-#include <cdeferlib/try.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -46,8 +45,11 @@ char* file_content(char* name) {
     char* buf = malloc(1024);
     Defer free(buf);
 
-    FILE* f;
-    Try(f, fopen(name, "r"), return "");
+    FILE* f = fopen(name, "r");
+    if (!f) {
+        return NULL;
+    }
+
     Defer fclose(f);
 
     fgets(buf, 1024, f);
@@ -62,18 +64,20 @@ int main() {
 }
 ```
 
-### Step: 2. Check & free memory when out of scope
+### Step: 2. Preprocessor
 
 ```c
-#include <cdeferlib/try.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 char* file_content(char* name) {
     char* buf = malloc(1024);
 
-    FILE* f;
-    Try(f, fopen(name, "r"), free(buf); return "");
+    FILE* f = fopen(name, "r");
+    if (!f) {
+        free(buf);
+        return NULL;
+    }
 
     fgets(buf, 1024, f);
     fclose(f);
@@ -88,58 +92,18 @@ int main() {
 }
 ```
 
-### Step: 3. Expand macro for compile
+-   As you can see the `defer` call when the code get out of scope in `step: 2`. If the Io operation fail the code will be out of scope and it will free all the allocated memory.
 
-```c
-#include <stdio.h>
-#include <stdlib.h>
+-   `Step: 3` The code is ready to compile, but with other best practice & warning will be check by the compiler.
 
-char* file_content(char* name) {
-    char* buf = malloc(1024);
-
-    FILE* f;
-    do {
-        f = fopen(name, "r");
-        if (!(f)) {
-            free(buf);
-            return "";
-        }
-    } while (0);
-
-    fgets(buf, 1024, f);
-    fclose(f);
-    return buf;
-}
-
-int main() {
-    char* content = file_content("start.txt");
-    printf("%s\n", content);
-    free(content);
-    return 0;
-}
-```
-
--   As you can see the `defer` call when the code get out of scope in `step: 2`.
-
--   Then it will expand macro `Try` to handle Io operation safely in `step: 3`.
-
--   If the Io operation fail the code will be out of scope and it will free all the allocated memory.
-
--   `Step: 4` the code is ready to compile.
+-   `Step: 4` Final compilation.
 
 ## Key Features
 
-#### Memory Safety (Implemented ✅)
+#### Memory Safety (Implemented ✅ but require opt-in)
 
--   Enforces safe memory access patterns.
 -   No ghost allocation.
--   Detects common vulnerabilities:
-    -   Buffer overflows
-    -   Use-after-free
-    -   Double free
-    -   Null dereferences
--   Applies compile-time and runtime instrumentation.
--   100% compatible with **standard C & C++ compilers**.
+-   100% compatible with **standard C compilers**.
 
 #### No Makefile Required (Implemented ✅)
 
@@ -161,15 +125,14 @@ int main() {
 
 ## Status
 
-| Feature              | Status           |
-| -------------------- | ---------------- |
-| Memory Safety Engine | ✅ Complete      |
-| Build Auto-Gen       | ✅ Complete      |
-| CLI Tooling          | ✅ Basic Version |
-| Package Manager      | 🚧 In Progress   |
-| Documentation        | 🔜 Planned       |
-| Linter               | 🔜 Planned       |
-| LSP for IDEs         | 🔜 Planned       |
+| Feature         | Status           |
+| --------------- | ---------------- |
+| Build Auto-Gen  | ✅ Complete      |
+| CLI Tooling     | ✅ Basic Version |
+| Package Manager | 🚧 In Progress   |
+| Documentation   | 🔜 Planned       |
+| Linter          | 🔜 Planned       |
+| LSP for IDEs    | 🔜 Planned       |
 
 ## Support OS
 
